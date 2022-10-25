@@ -5,9 +5,12 @@ interface SignInCredentials {
   password: string;
 }
 
+interface SignUpCredentials extends SignInCredentials { }
+
 interface AuthContextData {
   isAuthenticaded: boolean;
   signIn: (credentials: SignInCredentials) => Promise<void>;
+  signUp: (credentials: SignUpCredentials) => Promise<void>;
   signOut: () => void;
 }
 
@@ -18,6 +21,7 @@ interface AuthProviderProps {
 const AuthContext = createContext<AuthContextData>({
   isAuthenticaded: false,
   signIn: async () => {},
+  signUp: async () => {},
   signOut: () => {},
 });
 
@@ -30,6 +34,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     setIsAuthenticated(true);
   };
 
+  const signUp = async (credentials: SignUpCredentials) => {
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    
+    setIsAuthenticated(true);
+  };
+
   const signOut = () => {
     setIsAuthenticated(false);
   };
@@ -38,6 +48,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     <AuthContext.Provider value={{
       isAuthenticaded,
       signIn,
+      signUp,
       signOut
     }}>
       {children}

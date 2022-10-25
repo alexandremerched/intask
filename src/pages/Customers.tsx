@@ -1,7 +1,9 @@
 export function Customers() {
   return (
-    <div className="flex flex-1 bg-gray-100 py-4 px-8">
-      <h1 className="font-inter text-2xl">Clientes</h1>
+    <div className="flex flex-1 flex-col bg-gray-100">
+      <header className="flex items-center border-b py-4 px-8 bg-white h-[73px]">
+        <span className="flex-1 text-2xl">Clientes</span>
+      </header>
     </div>
   )
 }

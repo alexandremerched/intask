@@ -1,25 +1,27 @@
-import { FormEvent, useRef, useState } from "react"
-import { Link } from "react-router-dom"
+import { FormEvent, useState } from "react"
+import { Link, useNavigate } from "react-router-dom"
 
 import { Logo } from "../components/Logo"
 import { Button } from "../components/Button"
-import { Input } from "../components/Input"
-import { Toast, ToastRef } from "../components/Toast"
+import { TextInput } from "../components/TextInput"
+import { useAuth } from "../providers/auth.provider"
 
 interface FormData {
   email: string
   password: string
 }
 
-export function SignUp() {
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isSignUpSuccess, setIsSignUpSuccess] = useState(false)
-  const [formData, setFormData] = useState<FormData>({
-    email: "",
-    password: "",
-  })
+const defaultFormData: FormData = {
+  email: "",
+  password: "",
+}
 
-  const signUpSuccessToastRef = useRef<ToastRef>(null)
+export function SignUp() {
+  const { signUp } = useAuth();
+  const navigate = useNavigate();
+
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [formData, setFormData] = useState<FormData>(defaultFormData)
 
   const handleOnChangeField = (event: FormEvent<HTMLInputElement>) => {
     const { id, value } = event.currentTarget
@@ -30,57 +32,42 @@ export function SignUp() {
     event.preventDefault()
     setIsSubmitting(true)
 
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+    await signUp(formData).then(() => navigate("/"));
 
     setIsSubmitting(false)
-
-    if (signUpSuccessToastRef.current) {
-      signUpSuccessToastRef.current.show()
-    }
   }
 
   return (
-    <div className="flex flex-col justify-center items-center bg-gray-100 h-screen w-screen px-4">
-      <Toast
-        title="Cadastro realizado com sucesso!"
-        type="success"
-        ref={signUpSuccessToastRef}
-      />
+    <div className="h-screen w-screen flex flex-col justify-center items-center bg-gray-100 px-4">
       <header className="text-center">
         <Logo className="mb-8" />
         <h1 className="text-2xl font-inter font-bold">Crie a sua conta</h1>
       </header>
 
       <form className="flex flex-col rounded-lg bg-white p-4 mt-4 gap-4 w-full max-w-[400px]" onSubmit={handleOnSubmit}>
-        <div className="flex flex-col text-sm gap-1">
-          <label className="text-gray-500 font-bold" htmlFor="email">Email</label>
-          <Input
+        <label className="text-sm" htmlFor="email">
+          <span className="text-gray-500">Email</span>
+          <TextInput
             id="email"
             type="email"
-            required={true}
             value={formData.email}
             onChange={handleOnChangeField}
+            required
           />
-        </div>
+        </label>
 
-        <div className="flex flex-col text-sm gap-1">
-          <label className="text-gray-500 font-bold" htmlFor="password">Senha</label>
-          <Input
+        <label className="text-sm" htmlFor="password">
+          <span className="text-gray-500">Senha</span>
+          <TextInput
             id="password"
             type="password"
-            required={true}
             value={formData.password}
             onChange={handleOnChangeField}
+            required
           />
-        </div>
+        </label>
 
-        <Button
-          isLoading={isSubmitting}
-          onClick={() => setIsSignUpSuccess(true)}
-          className="mt-2"
-        >
-          Criar
-        </Button>
+        <Button isLoading={isSubmitting} className="mt-2">Criar</Button>
 
         <Link
           className="text-blue-600 text-xs text-right transition-colors hover:text-blue-500"

@@ -2,8 +2,9 @@ import { FormEvent, useState } from "react"
 import { Link } from "react-router-dom"
 
 import { Logo } from "../components/Logo"
+import { Heading } from "../components/Heading"
+import { TextInput } from "../components/TextInput"
 import { Button } from "../components/Button"
-import { Input } from "../components/Input"
 
 import { useAuth } from "../providers/auth.provider"
 
@@ -35,34 +36,34 @@ export function SignIn() {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center bg-gray-100 h-screen w-screen px-4">
+    <div className="h-screen w-screen flex flex-col justify-center items-center bg-gray-100 px-4">
       <header className="text-center">
         <Logo className="mb-8" />
-        <h1 className="text-2xl font-inter font-bold">Faça login em sua conta</h1>
+        <Heading size="2xl">Faça login em sua conta</Heading>
       </header>
 
-      <form className="flex flex-col rounded-lg bg-white p-4 mt-4 gap-4 w-full max-w-[400px]" onSubmit={handleOnSubmit}>
-        <div className="flex flex-col text-sm gap-1">
-          <label className="text-gray-500 font-bold" htmlFor="email">Email</label>
-          <Input
+      <form className="flex flex-col rounded-lg bg-white p-4 gap-4 mt-4 w-full max-w-[400px]" onSubmit={handleOnSubmit}>
+        <label className="text-sm" htmlFor="email">
+          <span className="text-gray-500">Email</span>
+          <TextInput
             id="email"
             type="email"
             required={true}
             value={formData.email}
             onChange={handleOnChangeField}
           />
-        </div>
+        </label>
 
-        <div className="flex flex-col text-sm gap-1">
-          <label className="text-gray-500 font-bold" htmlFor="password">Senha</label>
-          <Input 
-            id="password" 
-            type="password" 
+        <label className="text-sm" htmlFor="password">
+          <span className="text-gray-500">Senha</span>
+          <TextInput
+            id="password"
+            type="password"
             required={true}
-            value={formData.password} 
-            onChange={handleOnChangeField} 
+            value={formData.password}
+            onChange={handleOnChangeField}
           />
-        </div>
+        </label>
 
         <Button isLoading={isSubmitting} className="mt-2">Entrar</Button>
 
