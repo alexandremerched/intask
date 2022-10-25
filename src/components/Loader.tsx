@@ -1,10 +1,8 @@
 import { SpinnerGap, IconProps } from "phosphor-react"
+import clsx from "clsx"
 
-export default function Loader(props: IconProps) {
+export default function Loader({className, ...props}: IconProps) {
   return (
-    <SpinnerGap
-      {...props}
-      className="animate-spin"
-    />
+    <SpinnerGap className={clsx("animate-spin", className)} {...props} />
   )
 }

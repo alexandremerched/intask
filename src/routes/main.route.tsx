@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
 
 import { Menu } from "../components/Menu"
-import { Dashboard } from '../pages/Dashboard'
+import { Home } from '../pages/Home'
 import { Customers } from '../pages/Customers'
 
 export function MainRoute() {
@@ -9,7 +9,7 @@ export function MainRoute() {
     <div className="flex h-screen w-screen">
       <Menu />
       <Routes>
-        <Route path="/" element={<Dashboard />} />
+        <Route path="/" element={<Home />} />
         <Route path="/clientes" element={<Customers />} />
       </Routes>
     </div>
